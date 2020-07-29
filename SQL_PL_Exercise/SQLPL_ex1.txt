@@ -1,0 +1,126 @@
+[1]Write a program that computes the perimeter and the area of a rectangle. Define your own values for the length and width. (Assuming that L and W are the length
+and width of the rectangle, Perimeter = 2*(L+W) and Area = L*W.  create database pl_ex; show databases;use pl_ex; create table tempp(fir int(5), sec int(5));
+create table rect(id int (2),len int(2), wid int(2)); insert into rect values(2,6,8);
+
+-->
+delimiter //
+create procedure pl_1()
+begin
+	declare a int (5);
+    declare p int(5);
+    declare x int(2);
+    declare y int(2);
+    select len,wid into x,y from rect where id=2;
+	set p=2*x+2*y, a=x*y;
+    insert into tempp values(p,a);
+    end; //
+    delimiter ;
+    call pl_1();
+    
+    select * from tempp;
+    
+======================================================================================================================================================
+    
+[2]Write a program that declares an integer variable called num, assigns a value to it, and computes and inserts into the tempp table the value of the variable itself, its
+square, and its cube.
+-->
+delimiter // 
+create procedure p1_2()
+begin
+    declare sqr int(5);
+    declare cu int(5);
+    declare num int(2);
+    
+    set num=5, sqr=num*num, cu= num*num*num;
+    insert into tempp values (sqr,cu);
+    end;//
+    delimiter ;
+    
+    call p1_2();
+    
+    select * from tempp;
+    
+===========================================================================================================================================================
+
+[3]. Convert a temperature in Fahrenheit (F) to its equivalent in Celsius (C) and viceversa. The required formulae are:- C= (F-32)*5/9
+F= 9/5*C + 32 
+
+-->
+delimiter //
+create procedure pl_3()
+begin
+     declare f float(10,3);
+     declare c float(10,3);
+	 declare fa int(10);
+     declare ce int(10);
+     set c=40, fa=9/5*c + 32, f=120, ce=(f-32)*5/9;
+     insert into tempp values(fa,ce);
+     end; //
+     delimiter ;
+     
+     call pl_3();
+     select * from tempp;
+     
+=============================================================================================================================================================
+
+[4] Convert a number of inches into yards, feet, and inches. For example, 124 inches equals 3 yards, 1 foot, and 4 inches.
+
+-->
+delimiter //
+create procedure pl_4()
+begin 
+    declare inch int(5);
+    declare yards int(5);
+    declare feet int(5);
+    set inch= 124, yards=inch/36, feet=1/12*inch;
+    insert into tempp values(yards,feet);
+    end; //
+    delimiter ;
+    
+    call pl_4();
+    select * from tempp;
+
+==============================================================================================================================================================
+ [5]Write a program that enables a user to input an integer. The program should then state whether the integer is evenly divisible by 5.
+
+-->
+delimiter //
+create procedure pl_5()
+begin
+     declare num int(5) default 10;
+     if(num mod 5 = 0) then
+     insert into tempp values(num,1);
+	 else
+     insert into tempp values(num,0);
+     end if;
+end; //
+ delimiter ;
+    
+    call pl_5();
+    select * from tempp;
+    
+==============================================================================================================================================================
+[6]. Your block should read in two real numbers and tell whether the product of the two numbers is equal to or greater than 100. 
+
+--->
+alter table tempp add real_check varchar(25);
+select * from tempp;
+
+delimiter //
+create procedure pl_6()
+begin
+   declare x int(5);
+   declare y int(5);
+   set x = 10 ,y = 5;
+   if (x*y > 100) then
+       insert into tempp values(x,y,'greater');
+   elseif (x*y = 100) then
+       insert into tempp values(x,y,'equal');
+   else 
+       insert into tempp values(x,y,'lower');
+   end if;
+end; //
+ delimiter ;
+    
+    call pl_6();
+    select * from tempp;
